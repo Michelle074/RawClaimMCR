@@ -326,6 +326,8 @@ class MCRConvert():
         if self.previous_year_loss_ratio_df is None and self.current_year_loss_ratio_df is None :
             pass
         else:
+            print("execute this else condition")
+            len(None)
             self.loss_ratio_text_convert()
             template_p16 = self.template_wb["P16_LR by Benefits"]
             cols = [3,4,5]
