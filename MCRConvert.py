@@ -346,14 +346,11 @@ class MCRConvert():
 
             if self.current_year_loss_ratio_df is not None:
                 for index, row in self.current_year_loss_ratio_df.iterrows():
-                    if row['policy_start_date'] == template_p16.cell(row=12,column=1).value and row['policy_end_date'] == template_p16.cell(row=14,column=1).value: 
-                        row_target = current_start_row +1
-                        if row["duration"] <12:
-                            row['actual_premium'], row["actual_paid_w_ibnr"] = row['actual_premium'] *row["duration"] , row["actual_paid_w_ibnr"] *row["duration"]
-                        else:
-                            row["duration"] = row["duration"]
-                        for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
-                            template_p16.cell(row=row_target, column=col).value = val
+                    row_target = current_start_row +1
+                    row['actual_premium'], row["actual_paid_w_ibnr"] = row['actual_premium'] * 12 / row["duration"] , row["actual_paid_w_ibnr"] * 12 / row["duration"]
+
+                    for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
+                        template_p16.cell(row=row_target, column=col).value = val
 
 
     def convert_all(self):
