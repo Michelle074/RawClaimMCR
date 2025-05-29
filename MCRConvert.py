@@ -343,7 +343,7 @@ class MCRConvert():
 
             if self.current_year_loss_ratio_df is not None:
                 for index, row in self.current_year_loss_ratio_df.iterrows():
-                    # if row['benefit_type'] == "Total":
+                    if row['benefit_type'] != "Total":
                         current_start_row +=1
                         row['actual_premium'], row["actual_paid_w_ibnr"] = float(row['actual_premium']) * 12 / int(row["duration"]) , float(row["actual_paid_w_ibnr"]) * 12 / int(row["duration"])
                         for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
