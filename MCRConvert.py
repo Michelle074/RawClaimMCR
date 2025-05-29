@@ -318,6 +318,8 @@ class MCRConvert():
             self.current_year_loss_ratio_df = pd.DataFrame(data_l[1:], columns=data_l[0])
 
     def p16_LR_by_benefits(self):
+        print(self.previous_year_loss_ratio_df)
+        print(self.current_year_loss_ratio_df)
         if self.previous_year_loss_ratio_df is None and self.current_year_loss_ratio_df is None :
             pass
         else:
