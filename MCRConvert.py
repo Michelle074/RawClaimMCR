@@ -325,18 +325,18 @@ class MCRConvert():
 
 
     def p16_LR_by_benefits(self):
-        print(self.previous_year_loss_ratio_df)
-        print(self.current_year_loss_ratio_df)
-        len(None)
+        
         if self.previous_year_loss_ratio_df is None and self.current_year_loss_ratio_df is None :
-            pass
+            return
         else:
 
-            self.loss_ratio_text_convert()
+            # self.loss_ratio_text_convert()
             template_p16 = self.template_wb["P16_LR by Benefits"]
             cols = [3,4,5]
             previous_start_row, current_start_row = 4,11
             if self.previous_year_loss_ratio_df is not None:
+                print(self.previous_year_loss_ratio_df)
+                len(None)
                 for index, row in self.previous_year_loss_ratio_df.iterrows():
                     if row['policy_number'] == template_p16(row=9,column=1).value and row['policy_start_date'] == template_p16(row=5,column=1).value and row['policy_end_date'] == template_p16(row=7,column=1).value: 
                         row_target = previous_start_row +1
@@ -348,6 +348,8 @@ class MCRConvert():
                             template_p16.cell(row=row_target, column=col).value = val
 
             if self.current_year_loss_ratio_df is not None:
+                print(self.current_year_loss_ratio_df)
+                len(None)
                 for index, row in self.current_year_loss_ratio_df.iterrows():
                     if row['policy_number'] == template_p16(row=16,column=1).value and row['policy_start_date'] == template_p16(row=12,column=1).value and row['policy_end_date'] == template_p16(row=14,column=1).value: 
                         row_target = current_start_row +1
