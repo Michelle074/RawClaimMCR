@@ -321,7 +321,9 @@ class MCRConvert():
             current_yr_loss_ratio_text = current_yr_loss_ratio_text.splitlines()
             data_l = [current_yr_loss_ratio_text[i].split(",") for i in range(len(current_yr_loss_ratio_text))]
             self.current_year_loss_ratio_df = pd.DataFrame(data_l[1:], columns=data_l[0])
-            
+            print(self.previous_year_loss_ratio_df)
+            print(self.current_year_loss_ratio_df)
+            len(None)
 
 
     def p16_LR_by_benefits(self):
@@ -329,9 +331,6 @@ class MCRConvert():
             return
         else:
             # self.loss_ratio_text_convert()
-            print(self.previous_year_loss_ratio_df)
-            print(self.current_year_loss_ratio_df)
-            len(None)
             template_p16 = self.template_wb["P16_LR by Benefits"]
             cols = [3,4,5]
             previous_start_row, current_start_row = 4,11
