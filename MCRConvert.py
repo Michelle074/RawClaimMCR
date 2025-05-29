@@ -307,6 +307,9 @@ class MCRConvert():
             print(f"An error occurred while saving the file into the BytesIO: {e}")
 
     def loss_ratio_text_convert(self, previous_yr_loss_ratio_text=None, current_yr_loss_ratio_text = None):
+        print(previous_yr_loss_ratio_text)
+        print(current_yr_loss_ratio_text)
+        len(None)
         previous_yr_loss_ratio_text = "" if previous_yr_loss_ratio_text is None else previous_yr_loss_ratio_text
         current_yr_loss_ratio_text = "" if current_yr_loss_ratio_text is None else current_yr_loss_ratio_text
         
@@ -343,8 +346,6 @@ class MCRConvert():
                             template_p16.cell(row=row_target, column=col).value = val
 
             if self.current_year_loss_ratio_df is not None:
-                print("execute this else condition")
-                len(None)
                 for index, row in self.current_year_loss_ratio_df.iterrows():
                     if row['policy_number'] == template_p16(row=16,column=1).value and row['policy_start_date'] == template_p16(row=12,column=1).value and row['policy_end_date'] == template_p16(row=14,column=1).value: 
                         row_target = current_start_row +1
