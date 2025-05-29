@@ -125,7 +125,6 @@ class MCRConvert():
                     for col, val in zip([6,7,8], [row['incurred_amount'], row['paid_amount'], row['usage_ratio']]):
                         template_p20.cell(row=current_start_row, column=col).value = val
 
-
     def P20_network(self):
         input_p20_btype = self.mcr_p20_network.loc[((self.mcr_p20_network["policy_number"] == self.current_policy_num) & (self.mcr_p20_network["year"] == self.current_year)) | 
                                                    ((self.mcr_p20_network["policy_number"] == self.previous_policy_num) & (self.mcr_p20_network["year"] == self.previous_year))]
@@ -307,16 +306,6 @@ class MCRConvert():
         except Exception as e:
             print(f"An error occurred while saving the file into the BytesIO: {e}")
 
-    def convert_all(self):
-        self.claim_info()
-        self.P20_overall()
-        self.P20_benefittype()
-        self.P20_network()
-        self.P21_by_class()
-        self.P22_by_class()
-        self.P25_by_plan()
-        self.P26_by_class()
-
     def loss_ratio_text_convert(self, previous_yr_loss_ratio_text=None, current_yr_loss_ratio_text = None):
         self.previous_year_loss_ratio_df, self.current_year_loss_ratio_df = None, None
         if len(previous_yr_loss_ratio_text) > 0:
@@ -328,7 +317,45 @@ class MCRConvert():
             data_l = [current_yr_loss_ratio_text[i].split(",") for i in range(len(current_yr_loss_ratio_text))]
             self.current_year_loss_ratio_df = pd.DataFrame(data_l[1:], columns=data_l[0])
 
-        
+    def p16_LR_by_benefits(self):
+        if self.previous_year_loss_ratio_df is None and self.current_year_loss_ratio_df is None :
+            pass
+        else:
+            self.loss_ratio_text_convert()
+            template_p16 = self.template_wb["P16_LR by Benefits"]
+            cols = [3,4,5]
+            previous_start_row, current_start_row = 4,11
+            for index, row in self.previous_year_loss_ratio_df.iterrows():
+                if row['policy_number'] == template_p16(row=9,column=1).value and row['policy_start_date'] == template_p16(row=5,column=1).value and row['policy_end_date'] == template_p16(row=7,column=1).value: 
+                    row_target = previous_start_row +1
+                    if row["duration"] <12:
+                        row['actual_premium'], row["actual_paid_w_ibnr"] = row['actual_premium']*row["duration"] , row["actual_paid_w_ibnr"]*row["duration"]
+                    else:
+                        row["duration"] = row["duration"]
+                    for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
+                        template_p16.cell(row=row_target, column=col) = val
+
+            for index, row in self.current_year_loss_ratio_df.iterrows():
+                if row['policy_number'] == template_p16(row=16,column=1).value and row['policy_start_date'] == template_p16(row=12,column=1).value and row['policy_end_date'] == template_p16(row=14,column=1).value: 
+                    row_target = current_start_row +1
+                    if row["duration"] <12:
+                        row['actual_premium'], row["actual_paid_w_ibnr"] = row['actual_premium'].value *row["duration"].value , row["actual_paid_w_ibnr"].value *row["duration"].value
+                    else:
+                        row["duration"] = row["duration"].value
+                    for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
+                        template_p16.cell(row=row_target, column=col) = val
+
+
+    def convert_all(self):
+        self.claim_info()
+        self.P20_overall()
+        self.P20_benefittype()
+        self.P20_network()
+        self.P21_by_class()
+        self.P22_by_class()
+        self.P25_by_plan()
+        self.P26_by_class()
+        self.p16_LR_by_benefits()
 
 # def main():
 #     GMI = MCRConvert(input_file='input_example_01.xlsx', previous_policy_num="015989", previous_year= 2023, current_policy_num="015989", current_year=2024)
