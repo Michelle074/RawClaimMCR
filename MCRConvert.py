@@ -335,21 +335,19 @@ class MCRConvert():
             previous_start_row, current_start_row = 4,11
             if self.previous_year_loss_ratio_df is not None:
                 for index, row in self.previous_year_loss_ratio_df.iterrows():
-                    if row['policy_number'] == template_p16(row=9,column=1).value and row['policy_start_date'] == template_p16(row=5,column=1).value and row['policy_end_date'] == template_p16(row=7,column=1).value: 
-                        row_target = previous_start_row +1
-                        if row["duration"] <12:
-                            row['actual_premium'], row["actual_paid_w_ibnr"] = row['actual_premium']*row["duration"] , row["actual_paid_w_ibnr"]*row["duration"]
-                        else:
-                            row["duration"] = row["duration"]
+                    if row['benefit_type'] != "Total":
+                        previous_start_row +=1
+                        row['actual_premium'], row["actual_paid_w_ibnr"] = float(row['actual_premium']) * 12 / int(row["duration"]) , float(row["actual_paid_w_ibnr"]) * 12 / int(row["duration"])
                         for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
-                            template_p16.cell(row=row_target, column=col).value = val
+                            template_p16.cell(row=previous_start_row, column=col).value = val
 
             if self.current_year_loss_ratio_df is not None:
                 for index, row in self.current_year_loss_ratio_df.iterrows():
-                    current_start_row +=1
-                    row['actual_premium'], row["actual_paid_w_ibnr"] = float(row['actual_premium']) * 12 / int(row["duration"]) , float(row["actual_paid_w_ibnr"]) * 12 / int(row["duration"])
-                    for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
-                        template_p16.cell(row=current_start_row, column=col).value = val
+                    if row['benefit_type'] != "Total":
+                        current_start_row +=1
+                        row['actual_premium'], row["actual_paid_w_ibnr"] = float(row['actual_premium']) * 12 / int(row["duration"]) , float(row["actual_paid_w_ibnr"]) * 12 / int(row["duration"])
+                        for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
+                            template_p16.cell(row=current_start_row, column=col).value = val
 
 
     def convert_all(self):
