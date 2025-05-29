@@ -347,7 +347,7 @@ class MCRConvert():
 
             if self.current_year_loss_ratio_df is not None:
                 for index, row in self.current_year_loss_ratio_df.iterrows():
-                    if row['policy_number'] == template_p16(row=16,column=1).value and row['policy_start_date'] == template_p16(row=12,column=1).value and row['policy_end_date'] == template_p16(row=14,column=1).value: 
+                    if row['policy_start_date'] == template_p16(row=12,column=1).value and row['policy_end_date'] == template_p16(row=14,column=1).value: 
                         row_target = current_start_row +1
                         if row["duration"] <12:
                             row['actual_premium'], row["actual_paid_w_ibnr"] = row['actual_premium'].value *row["duration"].value , row["actual_paid_w_ibnr"].value *row["duration"].value
