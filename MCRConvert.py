@@ -325,11 +325,12 @@ class MCRConvert():
 
 
     def p16_LR_by_benefits(self):
-        
         if self.previous_year_loss_ratio_df is None and self.current_year_loss_ratio_df is None :
             return
         else:
             # self.loss_ratio_text_convert()
+            print(self.previous_year_loss_ratio_df)
+            print(self.current_year_loss_ratio_df)
             template_p16 = self.template_wb["P16_LR by Benefits"]
             cols = [3,4,5]
             previous_start_row, current_start_row = 4,11
