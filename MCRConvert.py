@@ -307,6 +307,9 @@ class MCRConvert():
             print(f"An error occurred while saving the file into the BytesIO: {e}")
 
     def loss_ratio_text_convert(self, previous_yr_loss_ratio_text=None, current_yr_loss_ratio_text = None):
+        previous_yr_loss_ratio_text = "" if previous_yr_loss_ratio_text is None else previous_yr_loss_ratio_text
+        current_yr_loss_ratio_text = "" if current_yr_loss_ratio_text is None else current_yr_loss_ratio_text
+        
         self.previous_year_loss_ratio_df, self.current_year_loss_ratio_df = None, None
         if len(previous_yr_loss_ratio_text) > 0:
             previous_yr_loss_ratio_text = previous_yr_loss_ratio_text.splitlines()
