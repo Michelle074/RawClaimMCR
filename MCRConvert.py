@@ -335,7 +335,7 @@ class MCRConvert():
                     else:
                         row["duration"] = row["duration"]
                     for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
-                        template_p16.cell(row=row_target, column=col) = val
+                        template_p16.cell(row=row_target, column=col).value = val
 
             for index, row in self.current_year_loss_ratio_df.iterrows():
                 if row['policy_number'] == template_p16(row=16,column=1).value and row['policy_start_date'] == template_p16(row=12,column=1).value and row['policy_end_date'] == template_p16(row=14,column=1).value: 
@@ -345,7 +345,7 @@ class MCRConvert():
                     else:
                         row["duration"] = row["duration"].value
                     for col, val in zip(cols, [row['actual_premium'], row['actual_paid_w_ibnr'], row['loss_ratio']]):
-                        template_p16.cell(row=row_target, column=col) = val
+                        template_p16.cell(row=row_target, column=col).value = val
 
 
     def convert_all(self):
